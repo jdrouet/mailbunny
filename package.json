@@ -1,0 +1,29 @@
+{
+  "name": "mailbunny",
+  "version": "1.0.0",
+  "description": "",
+  "main": "source/index.js",
+  "scripts": {
+    "coverage": "nyc mocha",
+    "lint": "eslint .",
+    "start": "node source/index.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "debug": "^4.1.1",
+    "imap": "^0.8.19",
+    "nconf": "^0.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.3.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-node": "^4.0.0",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.2"
+  }
+}
