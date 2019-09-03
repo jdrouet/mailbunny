@@ -12,11 +12,11 @@ jobs:
       env:
         CI: true
 
-    # services:
-    #   rabbit:
-    #     image: rabbitmq:alpine
-    #     ports:
-    #       - 5672:5672
+    services:
+      rabbit:
+        image: rabbitmq:alpine
+        ports:
+          - 5672:5672
 
     steps:
       - uses: actions/checkout@v1
@@ -27,7 +27,7 @@ jobs:
       - name: lint source code
         run: npm run lint
 
-      # - name: test
-      #   run: npm run coverage
-      #   env:
-      #     rabbit_url: amqp://guest:guest@rabbit:${{ job.services.rabbit.ports[5672] }}/
+      - name: test
+        run: npm run coverage
+        env:
+          rabbit_url: amqp://guest:guest@rabbit:${{ job.services.rabbit.ports[5672] }}/
