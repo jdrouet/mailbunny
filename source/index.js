@@ -19,9 +19,13 @@ mailer.once('error', (err) => {
   if (!err) {
     return mailer.connect();
   }
-  console.log(err, JSON.stringify(err));
-  console.error(err);
+  console.error(err.message);
   process.exit(1);
 });
 
-mailer.connect();
+rabbit.connect()
+  .then(() => mailer.connect())
+  .catch((err) => {
+    console.error(err.message);
+    process.exit(1);
+  });

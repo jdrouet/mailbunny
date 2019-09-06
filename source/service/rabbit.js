@@ -1,15 +1,18 @@
 const amqp = require('amqplib');
 const debug = require('debug')('mailbunny:service:rabbit');
 
+const wait = (duration) =>
+  new Promise((resolve) => setTimeout(resolve, duration));
+
 class Rabbit {
   constructor(config) {
     this._config = config;
     this._connection = null;
   }
 
-  getConnection() {
+  getConnection(force = false) {
     debug('get connection');
-    if (!this._connection) {
+    if (force || !this._connection) {
       this._connection = amqp.connect(this._config.url);
     }
     return this._connection;
@@ -47,6 +50,16 @@ class Rabbit {
       .then((ch) => ch.close())
       .then(() => this.getConnection())
       .then((con) => con.close());
+  }
+
+  async connect(retry = 60, interval = 1000) {
+    return this.getConnection(true)
+      .catch(async (err) => {
+        debug('error connecting', err.message);
+        if (retry <= 0) throw err;
+        await wait(interval);
+        return this.connect(retry - 1, interval);
+      });
   }
 }
 
