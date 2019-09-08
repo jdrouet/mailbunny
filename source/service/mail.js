@@ -74,6 +74,9 @@ class Mailer extends Emitter {
     if (err) {
       return this.handleError(err);
     }
+    if (res.length === 0) {
+      return;
+    }
     debug('fetch messages');
     const fetch = this._client.fetch(res, {
       bodies: ['HEADER', 'TEXT'],
